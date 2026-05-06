@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio BTS SIO SISR — Oumoumen Marouane, étudiant en administration systèmes, réseaux et cybersécurité à Montpellier.">
+    <meta property="og:title" content="Oumoumen Marouane — Portfolio BTS SIO SISR">
+    <meta property="og:description" content="Administration systèmes, réseaux et cybersécurité — BTS SIO SISR Montpellier">
+    <title>Oumoumen Marouane — Portfolio BTS SIO SISR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary:#ffffff; --bg-secondary:#f8f9fa; --bg-tertiary:#e9ecef;
+            --text-primary:#0a0a0a; --text-secondary:#4a5568; --text-tertiary:#718096;
+            --accent-cyan:#00d4ff; --accent-purple:#7c3aed; --accent-pink:#ec4899;
+            --accent-green:#10b981; --accent-orange:#f59e0b; --accent-red:#ef4444;
+            --gradient-primary:linear-gradient(135deg,#00d4ff,#7c3aed);
+            --gradient-secondary:linear-gradient(135deg,#7c3aed,#ec4899);
+            --shadow-sm:0 2px 4px rgba(0,0,0,.05);
+            --shadow-md:0 4px 12px rgba(0,0,0,.1);
+            --shadow-lg:0 8px 24px rgba(0,0,0,.15);
+            --shadow-xl:0 16px 48px rgba(0,0,0,.2);
+            --glow-cyan:0 0 30px rgba(0,212,255,.3);
+            --glow-purple:0 0 30px rgba(124,58,237,.3);
+            --font-h:'Poppins',sans-serif; --font-b:'Inter',sans-serif;
+            --font-m:'JetBrains Mono',monospace;
+            --r-sm:8px; --r-md:12px; --r-lg:20px; --r-xl:30px;
+            --t:.3s ease;
+        }
+        [data-theme="dark"] {
+            --bg-primary:#0a0a0a; --bg-secondary:#141414; --bg-tertiary:#242424;
+            --text-primary:#f0f0f0; --text-secondary:#a0aec0; --text-tertiary:#718096;
+        }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;overflow-x:hidden;}
+        body{font-family:var(--font-b);background:var(--bg-primary);color:var(--text-primary);line-height:1.6;overflow-x:hidden;transition:background .5s,color .5s;}
+        ::selection{background:var(--accent-cyan);color:#000;}
+        ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--bg-primary);}::-webkit-scrollbar-thumb{background:var(--accent-cyan);border-radius:2px;}
+
+        /* PROGRESS */
+        #prog{position:fixed;top:0;left:0;height:3px;width:0%;background:var(--gradient-primary);z-index:9999;pointer-events:none;transition:width .08s linear;}
+
+        /* LOADER */
+        .loader{position:fixed;inset:0;background:var(--bg-primary);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;z-index:10000;transition:opacity .6s,visibility .6s;}
+        .loader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+        .loader-ring{width:60px;height:60px;border:3px solid var(--bg-tertiary);border-top:3px solid var(--accent-cyan);border-radius:50%;animation:spin 1s linear infinite;}
+        .loader-txt{font-family:var(--font-m);font-size:.78rem;color:var(--text-tertiary);letter-spacing:.15em;}
+        @keyframes spin{to{transform:rotate(360deg);}}
+
+        /* PARTICLES CANVAS */
+        #particles-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.35;}
+        [data-theme="light"] #particles-canvas{opacity:.15;}
+
+        /* CURSOR */
+        .cursor,.cursor-f{position:fixed;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%);}
+        .cursor{width:10px;height:10px;background:var(--accent-cyan);z-index:99999;transition:background .2s,transform .1s;}
+        .cursor-f{width:32px;height:32px;border:2px solid rgba(0,212,255,.5);z-index:99998;}
+        @media(max-width:768px){.cursor,.cursor-f{display:none;}}
+
+        /* TOAST */
+        .toast{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-secondary);border:1px solid var(--bg-tertiary);border-radius:var(--r-md);padding:.8rem 1.8rem;box-shadow:var(--shadow-xl);font-size:.86rem;font-weight:600;opacity:0;transition:all .4s;z-index:9000;pointer-events:none;}
+        .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+        /* PDF MODAL */
+        .pdf-ov{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.9);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all var(--t);}
+        .pdf-ov.on{opacity:1;visibility:visible;}
+        .pdf-box{background:var(--bg-secondary);border-radius:var(--r-lg);width:92vw;max-width:960px;height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow-xl);transform:scale(.92) translateY(20px);transition:transform var(--t);}
+        .pdf-ov.on .pdf-box{transform:scale(1) translateY(0);}
+        .pdf-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid var(--bg-tertiary);flex-shrink:0;}
+        .pdf-ttl{font-family:var(--font-h);font-weight:700;font-size:.95rem;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+        .pdf-dl{display:inline-flex;align-items:center;gap:.4rem;padding:.38rem .95rem;background:var(--gradient-primary);color:#fff;border:none;border-radius:var(--r-sm);font-weight:600;font-size:.78rem;cursor:pointer;text-decoration:none;}
+        .pdf-x{width:32px;height:32px;border:none;border-radius:50%;background:var(--bg-tertiary);color:var(--text-primary);font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+        .pdf-x:hover{background:#ef4444;color:#fff;transform:scale(1.1);}
+        .pdf-body{flex:1;overflow:hidden;}
+        .pdf-body iframe{width:100%;height:100%;border:none;}
+
+        /* NAVBAR */
+        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.9);backdrop-filter:blur(24px);border-bottom:1px solid rgba(0,0,0,.07);transition:all var(--t);}
+        [data-theme="dark"] .nav{background:rgba(10,10,10,.9);border-bottom-color:rgba(255,255,255,.07);}
+        .nav.scrolled{box-shadow:var(--shadow-md);}
+        .nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:64px;}
+        .logo{font-family:var(--font-h);font-size:1.25rem;font-weight:800;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;}
+        .nav-links{display:flex;align-items:center;gap:.1rem;list-style:none;}
+        .nl{padding:.38rem .65rem;font-size:.76rem;font-weight:500;color:var(--text-secondary);text-decoration:none;border-radius:var(--r-sm);transition:all .2s;white-space:nowrap;}
+        .nl:hover,.nl.active{color:var(--accent-cyan);background:rgba(0,212,255,.08);}
+        .nav-act{display:flex;align-items:center;gap:.6rem;}
+        .theme-btn{width:36px;height:36px;border:none;border-radius:50%;background:var(--bg-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;color:var(--text-primary);}
+        .theme-btn:hover{background:var(--bg-tertiary);transform:scale(1.1);}
+        .hburg{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:5px;}
+        .hburg span{width:22px;height:2px;background:var(--text-primary);border-radius:2px;transition:all var(--t);}
+        .mob-menu{display:none;background:var(--bg-primary);border-bottom:1px solid var(--bg-tertiary);padding:1rem 1.5rem 1.5rem;}
+        .mob-menu.open{display:block;}
+        .mob-menu a{display:block;padding:.6rem 1rem;color:var(--text-secondary);text-decoration:none;border-radius:var(--r-sm);font-weight:500;font-size:.88rem;transition:all .2s;}
+        .mob-menu a:hover{color:var(--accent-cyan);background:rgba(0,212,255,.08);}
+        @media(max-width:1100px){.nav-links{display:none;}.hburg{display:flex;}}
+
+        /* SECTIONS */
+        section{padding:6rem 2rem;max-width:1400px;margin:0 auto;position:relative;z-index:1;}
+        .sec-head{text-align:center;margin-bottom:3.8rem;}
+        .sec-tag{display:inline-block;padding:.28rem .95rem;background:rgba(0,212,255,.1);color:var(--accent-cyan);border:1px solid rgba(0,212,255,.25);border-radius:var(--r-xl);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.8rem;}
+        .sec-title{font-family:var(--font-h);font-size:clamp(1.7rem,4vw,2.7rem);font-weight:800;margin-bottom:1rem;line-height:1.15;}
+        .sec-sub{font-size:.96rem;color:var(--text-secondary);max-width:580px;margin:0 auto;line-height:1.7;}
+
+        /* HERO */
+        #accueil{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding-top:64px;position:relative;}
+        .hero-glow{position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:600px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,212,255,.08) 0%,transparent 70%);pointer-events:none;animation:glow-pulse 4s ease-in-out infinite;}
+        @keyframes glow-pulse{0%,100%{opacity:.8;}50%{opacity:1;transform:translateX(-50%) scale(1.05);}}
+        .hero-content{max-width:860px;position:relative;z-index:1;}
+        .hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem 1.2rem;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.28);border-radius:var(--r-xl);font-size:.8rem;font-weight:600;color:var(--accent-cyan);margin-bottom:1.8rem;animation:fade-down .8s ease both;}
+        .hero-dot{width:8px;height:8px;border-radius:50%;background:var(--accent-cyan);animation:pulse 2s infinite;}
+        @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.4);}}
+        @keyframes fade-down{from{opacity:0;transform:translateY(-12px);}to{opacity:1;transform:translateY(0);}}
+        .hero-title{font-family:var(--font-h);font-size:clamp(2.4rem,7vw,5.2rem);font-weight:800;line-height:1.05;margin-bottom:1.4rem;animation:fade-up .8s .2s ease both;}
+        .hero-title .grad{background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+        @keyframes fade-up{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+        .hero-sub{font-size:clamp(.9rem,2vw,1.12rem);color:var(--text-secondary);max-width:540px;margin:0 auto 1.4rem;line-height:1.8;animation:fade-up .8s .35s ease both;}
+        .typewriter{font-family:var(--font-m);font-size:.95rem;color:var(--accent-cyan);margin-bottom:2.2rem;min-height:1.5rem;display:block;animation:fade-up .8s .5s ease both;}
+        .tw-cur{animation:blink .7s infinite;}
+        @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+        .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:3.5rem;animation:fade-up .8s .65s ease both;}
+        .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.82rem 1.9rem;border-radius:var(--r-md);font-weight:600;font-size:.9rem;text-decoration:none;transition:all var(--t);cursor:pointer;border:none;font-family:var(--font-b);}
+        .btn-p{background:var(--gradient-primary);color:#fff;box-shadow:var(--glow-cyan);}
+        .btn-p:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 0 45px rgba(0,212,255,.55);}
+        .btn-s{background:transparent;color:var(--text-primary);border:2px solid var(--bg-tertiary);}
+        .btn-s:hover{border-color:var(--accent-cyan);color:var(--accent-cyan);transform:translateY(-3px);}
+        .hero-stats{display:flex;gap:3rem;justify-content:center;flex-wrap:wrap;animation:fade-up .8s .8s ease both;}
+        .stat{text-align:center;}
+        .stat-n{font-family:var(--font-h);font-size:2.4rem;font-weight:800;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;}
+        .stat-l{font-size:.76rem;color:var(--text-tertiary);font-weight:500;}
+
+        /* ABOUT */
+        .about-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:center;}
+        .about-img-w{position:relative;}
+        .about-img{aspect-ratio:1;border-radius:var(--r-xl);background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;font-size:5rem;position:relative;overflow:hidden;}
+        .about-img::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,212,255,.15),rgba(124,58,237,.15));}
+        .about-badge{position:absolute;bottom:-18px;right:-18px;background:var(--bg-primary);border-radius:var(--r-md);padding:.9rem 1.3rem;box-shadow:var(--shadow-xl);border:1px solid var(--bg-tertiary);text-align:center;}
+        .about-badge span:first-child{font-family:var(--font-h);font-size:1.8rem;font-weight:800;background:var(--gradient-secondary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;}
+        .about-badge small{font-size:.7rem;color:var(--text-tertiary);font-weight:600;}
+        .about-txt{color:var(--text-secondary);line-height:1.85;margin-bottom:1.2rem;}
+        .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem;}
+        .chip{padding:.28rem .88rem;background:var(--bg-secondary);border:1px solid var(--bg-tertiary);border-radius:var(--r-xl);font-size:.78rem;font-weight:600;color:var(--text-secondary);transition:all .2s;cursor:default;}
+        .chip:hover{border-color:var(--accent-cyan);color:var(--accent-cyan);transform:translateY(-2px);}
+        @media(max-width:900px){.about-grid{grid-template-columns:1fr;}}
+
+        /* TIMELINE */
+        .timeline{position:relative;padding-left:2.5rem;}
+        .timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gradient-primary);border-radius:2px;}
+        .tl-item{position:relative;padding-left:2rem;margin-bottom:2.5rem;}
+        .tl-item::before{content:'';position:absolute;left:-2.7rem;top:.6rem;width:14px;height:14px;border-radius:50%;background:var(--accent-cyan);border:3px solid var(--bg-primary);box-shadow:0 0 14px rgba(0,212,255,.7);}
+        .tl-card{background:var(--bg-secondary);border-radius:var(--r-lg);padding:1.8rem;border:1px solid var(--bg-tertiary);transition:all var(--t);}
+        .tl-card:hover{transform:translateX(8px);box-shadow:var(--shadow-lg);border-color:rgba(0,212,255,.2);}
+        .tl-yr{display:inline-block;padding:.18rem .7rem;background:rgba(0,212,255,.1);color:var(--accent-cyan);border-radius:var(--r-sm);font-size:.76rem;font-weight:700;margin-bottom:.55rem;font-family:var(--font-m);}
+        .tl-title{font-family:var(--font-h);font-size:1.08rem;font-weight:700;margin-bottom:.28rem;}
+        .tl-inst{color:var(--accent-purple);font-size:.86rem;font-weight:600;margin-bottom:.55rem;}
+        .tl-desc{color:var(--text-secondary);font-size:.86rem;line-height:1.7;}
+
+        /* COMPÉTENCES */
+        .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:1.8rem;}
+        .skill-cat{background:var(--bg-secondary);border-radius:var(--r-lg);padding:2rem;border:1px solid var(--bg-tertiary);transition:all var(--t);}
+        .skill-cat:hover{transform:translateY(-7px);box-shadow:var(--shadow-lg);border-color:rgba(0,212,255,.15);}
+        .skill-cat-hd{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+        .skill-ico{width:46px;height:46px;border-radius:var(--r-md);background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;}
+        .skill-ttl{font-family:var(--font-h);font-size:.98rem;font-weight:700;}
+        .skill-tags{display:flex;flex-wrap:wrap;gap:.48rem;}
+        .stag{padding:.32rem .88rem;background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.16);border-radius:var(--r-xl);font-size:.8rem;font-weight:600;color:var(--text-secondary);transition:all .2s;cursor:default;}
+        .stag:hover{background:rgba(0,212,255,.15);color:var(--accent-cyan);border-color:var(--accent-cyan);transform:translateY(-2px);}
+
+        /* PROJETS */
+        .proj-filters{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-bottom:2.5rem;}
+        .fb{padding:.4rem 1.1rem;border-radius:var(--r-xl);border:2px solid var(--bg-tertiary);background:transparent;color:var(--text-secondary);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--font-b);}
+        .fb:hover,.fb.active{border-color:var(--accent-cyan);color:var(--accent-cyan);background:rgba(0,212,255,.08);}
+        .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(308px,1fr));gap:1.8rem;}
+        .pc{background:var(--bg-secondary);border-radius:var(--r-lg);border:1px solid var(--bg-tertiary);overflow:hidden;transition:all var(--t);display:flex;flex-direction:column;}
+        .pc:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:rgba(0,212,255,.15);}
+        .pc.hidden{display:none;}
+        .pc-head{padding:1.7rem 1.7rem .9rem;background:linear-gradient(135deg,rgba(0,212,255,.04),rgba(124,58,237,.06));display:flex;align-items:flex-start;gap:.9rem;}
+        .pc-num{font-family:var(--font-m);font-size:.76rem;font-weight:700;color:var(--accent-cyan);opacity:.7;padding-top:.2rem;flex-shrink:0;}
+        .pc-title{font-family:var(--font-h);font-size:1rem;font-weight:700;}
+        .pc-body{padding:.8rem 1.7rem 1.7rem;flex:1;display:flex;flex-direction:column;gap:.85rem;}
+        .pc-desc{color:var(--text-secondary);font-size:.86rem;line-height:1.7;flex:1;}
+        .pc-tech{display:flex;flex-wrap:wrap;gap:.38rem;}
+        .ttag{padding:.2rem .68rem;background:rgba(124,58,237,.1);color:var(--accent-purple);border-radius:var(--r-xl);font-size:.7rem;font-weight:700;}
+        .blank{border:2px dashed var(--bg-tertiary);opacity:.72;}
+        .blank:hover{border-color:var(--accent-cyan);opacity:1;box-shadow:var(--glow-cyan);}
+        .blank-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.55rem;padding:2rem;color:var(--text-tertiary);text-align:center;flex:1;}
+        .blank-ph .bi{font-size:2.2rem;opacity:.45;}
+        .blank-ph p{font-size:.84rem;font-weight:600;}
+        .blank-ph small{font-size:.75rem;}
+        .pdf-btns{display:flex;flex-direction:column;gap:.5rem;}
+        .btn-prev{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;padding:.62rem 1rem;background:transparent;color:var(--accent-purple);border:2px solid var(--accent-purple);border-radius:var(--r-md);font-weight:600;font-size:.86rem;cursor:pointer;width:100%;transition:all var(--t);font-family:var(--font-b);}
+        .btn-prev:hover{background:var(--accent-purple);color:#fff;transform:translateY(-2px);box-shadow:var(--glow-purple);}
+        .btn-dl{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;padding:.62rem 1rem;background:var(--gradient-primary);color:#fff;border:none;border-radius:var(--r-md);font-weight:600;font-size:.86rem;text-decoration:none;width:100%;transition:all var(--t);}
+        .btn-dl:hover{transform:translateY(-2px);box-shadow:var(--glow-cyan);}
+
+        /* OBJECTIFS */
+        .obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:1.8rem;}
+        .obj-card{background:var(--bg-secondary);border-radius:var(--r-lg);padding:2.2rem;border:1px solid var(--bg-tertiary);text-align:center;transition:all var(--t);position:relative;overflow:hidden;}
+        .obj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient-primary);}
+        .obj-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);}
+        .obj-num{font-family:var(--font-h);font-size:2.8rem;font-weight:800;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;margin-bottom:.8rem;}
+        .obj-title{font-family:var(--font-h);font-size:1.08rem;font-weight:700;margin-bottom:.8rem;}
+        .obj-txt{color:var(--text-secondary);font-size:.86rem;line-height:1.7;}
+
+        /* ENGAGEMENT */
+        .eng-wrap{display:grid;grid-template-columns:1fr 2.2fr;gap:2.5rem;align-items:start;}
+        .eng-left{display:flex;flex-direction:column;gap:1.2rem;}
+        .eng-hero{background:var(--gradient-primary);border-radius:var(--r-xl);padding:2.2rem 1.8rem;text-align:center;color:#fff;position:relative;overflow:hidden;}
+        .eng-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,.1);}
+        .eng-hero::after{content:'';position:absolute;bottom:-28px;left:-22px;width:82px;height:82px;border-radius:50%;background:rgba(255,255,255,.07);}
+        .eng-emoji{font-size:3.2rem;margin-bottom:.9rem;display:block;position:relative;z-index:1;}
+        .eng-co{font-family:var(--font-h);font-size:1.55rem;font-weight:800;margin-bottom:.25rem;position:relative;z-index:1;}
+        .eng-loc{font-size:.83rem;opacity:.88;position:relative;z-index:1;}
+        .eng-mc{background:var(--bg-secondary);border-radius:var(--r-lg);padding:1.4rem;border:1px solid var(--bg-tertiary);}
+        .eng-mr{display:flex;align-items:center;gap:.8rem;padding:.45rem 0;border-bottom:1px solid var(--bg-tertiary);}
+        .eng-mr:last-child{border-bottom:none;}
+        .eng-mi{width:30px;height:30px;border-radius:var(--r-sm);background:rgba(0,212,255,.1);display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0;}
+        .eng-ml{font-size:.68rem;color:var(--text-tertiary);font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+        .eng-mv{font-weight:600;font-size:.85rem;}
+        .ef4-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.33rem .95rem;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);border-radius:var(--r-xl);font-size:.76rem;font-weight:700;color:#10b981;}
+        .eng-right{display:flex;flex-direction:column;gap:1.2rem;}
+        .eng-card{background:var(--bg-secondary);border-radius:var(--r-lg);padding:1.75rem;border:1px solid var(--bg-tertiary);transition:all var(--t);}
+        .eng-card:hover{box-shadow:var(--shadow-md);transform:translateX(4px);}
+        .eng-ch{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;}
+        .eng-ci{width:38px;height:38px;border-radius:var(--r-md);background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
+        .eng-ct{font-family:var(--font-h);font-size:.98rem;font-weight:700;}
+        .eng-p{color:var(--text-secondary);font-size:.86rem;line-height:1.8;}
+        .eng-ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+        .eng-ul li{display:flex;align-items:flex-start;gap:.6rem;font-size:.86rem;color:var(--text-secondary);line-height:1.6;}
+        .eng-ul li::before{content:'▸';color:var(--accent-cyan);flex-shrink:0;font-weight:700;}
+        @media(max-width:900px){.eng-wrap{grid-template-columns:1fr;}}
+
+        /* ══ VEILLE TECHNOLOGIQUE ══ */
+        .veille-intro{display:grid;grid-template-columns:1.2fr 1fr;gap:3rem;align-items:start;margin-bottom:3rem;}
+        .veille-txt p{color:var(--text-secondary);line-height:1.85;margin-bottom:1rem;font-size:.93rem;}
+        .veille-txt p strong{color:var(--accent-cyan);font-weight:700;}
+        /* Fiche incident */
+        .veille-fiche{background:var(--bg-secondary);border-radius:var(--r-lg);border:1px solid var(--bg-tertiary);overflow:hidden;box-shadow:var(--shadow-md);}
+        .vf-head{display:flex;align-items:center;gap:1rem;padding:1.4rem 1.5rem;background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(245,158,11,.08));border-bottom:1px solid var(--bg-tertiary);}
+        .vf-icon{font-size:2rem;}
+        .vf-title{font-family:var(--font-h);font-size:1rem;font-weight:700;margin-bottom:.25rem;}
+        .vf-badge{display:inline-block;padding:.18rem .7rem;background:rgba(239,68,68,.15);color:#ef4444;border-radius:var(--r-xl);font-size:.7rem;font-weight:700;border:1px solid rgba(239,68,68,.3);}
+        .vf-rows{padding:1rem 1.5rem;display:flex;flex-direction:column;gap:.5rem;}
+        .vf-row{display:flex;justify-content:space-between;align-items:center;padding:.38rem 0;border-bottom:1px solid var(--bg-tertiary);font-size:.83rem;}
+        .vf-row:last-child{border-bottom:none;}
+        .vf-lbl{color:var(--text-tertiary);font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;}
+        .vf-val{color:var(--text-primary);font-weight:600;font-size:.82rem;}
+        .vf-danger{color:#f59e0b;font-weight:700;font-size:.82rem;}
+
+        /* Timeline veille */
+        .veille-block{margin-bottom:3rem;}
+        .veille-block-ttl{font-family:var(--font-h);font-size:1.2rem;font-weight:700;margin-bottom:1.8rem;display:flex;align-items:center;gap:.7rem;}
+        .vtl{position:relative;padding-left:2.5rem;display:flex;flex-direction:column;gap:1rem;}
+        .vtl::before{content:'';position:absolute;left:.55rem;top:.4rem;bottom:.4rem;width:2px;background:var(--gradient-primary);border-radius:2px;}
+        .vtl-item{display:flex;align-items:flex-start;gap:1.5rem;position:relative;}
+        .vtl-dot{width:16px;height:16px;border-radius:50%;flex-shrink:0;position:absolute;left:-2.4rem;top:.4rem;border:3px solid var(--bg-primary);}
+        .vtl-dot.red{background:#ef4444;box-shadow:0 0 10px rgba(239,68,68,.6);}
+        .vtl-dot.orange{background:#f59e0b;box-shadow:0 0 10px rgba(245,158,11,.6);}
+        .vtl-dot.yellow{background:#eab308;box-shadow:0 0 10px rgba(234,179,8,.6);}
+        .vtl-dot.green{background:#10b981;box-shadow:0 0 10px rgba(16,185,129,.6);}
+        .vtl-card{background:var(--bg-secondary);border-radius:var(--r-md);padding:1.15rem 1.5rem;border:1px solid var(--bg-tertiary);flex:1;transition:all var(--t);}
+        .vtl-card:hover{transform:translateX(6px);box-shadow:var(--shadow-md);}
+        .vtl-date{display:inline-block;padding:.16rem .65rem;background:rgba(0,212,255,.1);color:var(--accent-cyan);border-radius:var(--r-sm);font-size:.72rem;font-weight:700;margin-bottom:.45rem;font-family:var(--font-m);}
+        .vtl-card h4{font-family:var(--font-h);font-size:.92rem;font-weight:700;margin-bottom:.38rem;}
+        .vtl-card p{color:var(--text-secondary);font-size:.83rem;line-height:1.7;}
+
+        /* Analyse */
+        .v-analysis{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:1.5rem;margin-bottom:3rem;}
+        .va-card{background:var(--bg-secondary);border-radius:var(--r-lg);padding:1.7rem;border:1px solid var(--bg-tertiary);transition:all var(--t);position:relative;overflow:hidden;}
+        .va-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+        .va-r::before{background:linear-gradient(90deg,#ef4444,#dc2626);}
+        .va-o::before{background:linear-gradient(90deg,#f59e0b,#d97706);}
+        .va-b::before{background:linear-gradient(90deg,#3b82f6,#2563eb);}
+        .va-g::before{background:linear-gradient(90deg,#10b981,#059669);}
+        .va-card:hover{transform:translateY(-7px);box-shadow:var(--shadow-lg);}
+        .va-ico{font-size:1.9rem;margin-bottom:.75rem;display:block;}
+        .va-ttl{font-family:var(--font-h);font-size:.92rem;font-weight:700;margin-bottom:.55rem;}
+        .va-txt{color:var(--text-secondary);font-size:.82rem;line-height:1.7;}
+
+        /* Lien formation */
+        .v-link-block{background:linear-gradient(135deg,rgba(0,212,255,.06),rgba(124,58,237,.1));border:1px solid rgba(0,212,255,.2);border-radius:var(--r-xl);padding:2.2rem;margin-bottom:3rem;}
+        .v-link-inner{display:flex;gap:1.8rem;align-items:flex-start;}
+        .v-link-ico{font-size:3rem;flex-shrink:0;}
+        .v-link-content h3{font-family:var(--font-h);font-size:1.12rem;font-weight:700;margin-bottom:.7rem;}
+        .v-link-content p{color:var(--text-secondary);font-size:.88rem;line-height:1.8;margin-bottom:1rem;}
+        .v-tags{display:flex;flex-wrap:wrap;gap:.42rem;}
+        .v-tags span{padding:.24rem .78rem;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.2);border-radius:var(--r-xl);font-size:.74rem;font-weight:700;color:var(--accent-cyan);}
+
+        /* Sources */
+        .v-sources{text-align:center;}
+        .v-src-ttl{font-family:var(--font-h);font-size:1.1rem;font-weight:700;margin-bottom:1.4rem;}
+        .v-src-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:1rem;}
+        .vsrc{display:flex;align-items:center;gap:.9rem;padding:1rem 1.2rem;background:var(--bg-secondary);border:1px solid var(--bg-tertiary);border-radius:var(--r-lg);text-decoration:none;transition:all var(--t);}
+        .vsrc:hover{border-color:var(--accent-cyan);transform:translateY(-4px);box-shadow:var(--shadow-md);}
+        .vsrc-ico{font-size:1.3rem;flex-shrink:0;}
+        .vsrc strong{display:block;font-size:.86rem;font-weight:700;color:var(--text-primary);margin-bottom:.12rem;}
+        .vsrc p{font-size:.74rem;color:var(--text-tertiary);margin:0;}
+        @media(max-width:900px){.veille-intro{grid-template-columns:1fr;}.v-link-inner{flex-direction:column;}}
+
+        /* ANNEXES */
+        .annex-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:1.8rem;}
+        .ann-card{background:var(--bg-secondary);border-radius:var(--r-lg);border:1px solid var(--bg-tertiary);overflow:hidden;transition:all var(--t);display:flex;flex-direction:column;}
+        .ann-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);}
+        .ann-head{padding:1.4rem 1.4rem .8rem;background:linear-gradient(135deg,rgba(0,212,255,.04),rgba(124,58,237,.06));}
+        .ann-icon{font-size:1.9rem;margin-bottom:.4rem;display:block;}
+        .ann-ttl{font-family:var(--font-h);font-size:.98rem;font-weight:700;}
+        .ann-body{padding:.8rem 1.4rem 1.4rem;flex:1;display:flex;flex-direction:column;gap:.8rem;}
+        .ann-desc{color:var(--text-secondary);font-size:.83rem;line-height:1.65;flex:1;}
+
+        /* CONTACT */
+        .ctn-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:3.5rem;}
+        .ctn-left{display:flex;flex-direction:column;gap:1.2rem;}
+        .ctn-card{background:var(--bg-secondary);border-radius:var(--r-lg);padding:1.6rem;border:1px solid var(--bg-tertiary);}
+        .ctn-card-ttl{font-family:var(--font-h);font-size:.98rem;font-weight:700;margin-bottom:1.2rem;}
+        .ci-item{display:flex;align-items:center;gap:.9rem;margin-bottom:1rem;}
+        .ci-ico{width:38px;height:38px;border-radius:var(--r-md);background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
+        .ci-lbl{font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text-tertiary);font-weight:600;}
+        .ci-val{font-size:.88rem;font-weight:500;}
+        .ci-val a{color:var(--accent-cyan);text-decoration:none;}
+        .soc-links{display:flex;gap:.6rem;flex-wrap:wrap;}
+        .soc{display:inline-flex;align-items:center;gap:.4rem;padding:.48rem 1rem;background:var(--bg-tertiary);border-radius:var(--r-md);color:var(--text-secondary);text-decoration:none;font-size:.83rem;font-weight:600;transition:all .2s;border:1px solid transparent;}
+        .soc:hover{border-color:var(--accent-cyan);color:var(--accent-cyan);transform:translateY(-2px);}
+        .ctn-form{background:var(--bg-secondary);border-radius:var(--r-lg);padding:2.2rem;border:1px solid var(--bg-tertiary);}
+        .form-ttl{font-family:var(--font-h);font-size:1.15rem;font-weight:700;margin-bottom:.4rem;}
+        .form-sub{color:var(--text-secondary);font-size:.86rem;margin-bottom:1.8rem;}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+        .fg{margin-bottom:1.25rem;}
+        .fg label{display:block;font-size:.83rem;font-weight:600;margin-bottom:.4rem;}
+        .fi,.fta{width:100%;padding:.78rem 1.05rem;background:var(--bg-primary);border:2px solid var(--bg-tertiary);border-radius:var(--r-md);color:var(--text-primary);font-family:var(--font-b);font-size:.88rem;transition:border-color .2s;outline:none;}
+        .fi:focus,.fta:focus{border-color:var(--accent-cyan);box-shadow:0 0 0 3px rgba(0,212,255,.1);}
+        .fta{min-height:125px;resize:vertical;}
+        .f-sub-btn{width:100%;padding:.88rem;background:var(--gradient-primary);color:#fff;border:none;border-radius:var(--r-md);font-family:var(--font-b);font-size:.92rem;font-weight:700;cursor:pointer;transition:all var(--t);}
+        .f-sub-btn:hover{transform:translateY(-2px);box-shadow:var(--glow-cyan);}
+        @media(max-width:900px){.ctn-grid{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}}
+
+        /* FOOTER */
+        footer{background:var(--bg-secondary);border-top:1px solid var(--bg-tertiary);padding:2rem;text-align:center;color:var(--text-tertiary);font-size:.86rem;position:relative;z-index:1;}
+        .ft-links{display:flex;justify-content:center;gap:1.4rem;margin-bottom:.8rem;flex-wrap:wrap;}
+        .ft-links a{color:var(--text-tertiary);text-decoration:none;font-size:.83rem;transition:color .2s;}
+        .ft-links a:hover{color:var(--accent-cyan);}
+        .f-nm{background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;}
+
+        /* BACK TOP */
+        #bTop{position:fixed;bottom:1.8rem;right:1.8rem;width:44px;height:44px;border-radius:50%;background:var(--gradient-primary);color:#fff;border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-lg);transition:all var(--t);opacity:0;visibility:hidden;z-index:500;}
+        #bTop.show{opacity:1;visibility:visible;}
+        #bTop:hover{transform:translateY(-4px);box-shadow:var(--glow-cyan);}
+
+        /* FADE */
+        .fi-anim{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
+        .fi-anim.in{opacity:1;transform:translateY(0);}
+        .fi-anim.delay-1{transition-delay:.1s;}
+        .fi-anim.delay-2{transition-delay:.2s;}
+        .fi-anim.delay-3{transition-delay:.3s;}
+    </style>
+</head>
+<body>
+
+<div id="prog"></div>
+<div class="toast" id="toast"></div>
+<div class="loader" id="loader"><div class="loader-ring"></div><span class="loader-txt">CHARGEMENT...</span></div>
+<canvas id="particles-canvas"></canvas>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-f" id="curF"></div>
+
+<!-- PDF MODAL -->
+<div class="pdf-ov" id="pdfOv">
+    <div class="pdf-box">
+        <div class="pdf-head">
+            <span class="pdf-ttl" id="pdfTtl">Prévisualisation</span>
+            <div style="display:flex;gap:.6rem;align-items:center;">
+                <a href="#" class="pdf-dl" id="pdfDl" download>⬇ Télécharger</a>
+                <button class="pdf-x" id="pdfX">✕</button>
+            </div>
+        </div>
+        <div class="pdf-body"><iframe id="pdfFr" src="" title="PDF"></iframe></div>
+    </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="nav" id="navbar">
+    <div class="nav-inner">
+        <a href="#accueil" class="logo">Oumoumen Marouane</a>
+        <ul class="nav-links">
+            <li><a href="#accueil"     class="nl active">Accueil</a></li>
+            <li><a href="#about"       class="nl">À Propos</a></li>
+            <li><a href="#formation"   class="nl">Formation</a></li>
+            <li><a href="#competences" class="nl">Compétences</a></li>
+            <li><a href="#projets"     class="nl">Projets</a></li>
+            <li><a href="#objectifs"   class="nl">Objectifs</a></li>
+            <li><a href="#engagement"  class="nl">Engagement</a></li>
+            <li><a href="#veille"      class="nl">La Veille</a></li>
+            <li><a href="#annexes"     class="nl">Annexes</a></li>
+            <li><a href="#contact"     class="nl">Contact</a></li>
+        </ul>
+        <div class="nav-act">
+            <button class="theme-btn" id="themeBtn">☀️</button>
+            <button class="hburg" id="hburg"><span></span><span></span><span></span></button>
+        </div>
+    </div>
+    <div class="mob-menu" id="mobMenu">
+        <a href="#accueil">Accueil</a><a href="#about">À Propos</a>
+        <a href="#formation">Formation</a><a href="#competences">Compétences</a>
+        <a href="#projets">Projets</a><a href="#objectifs">Objectifs</a>
+        <a href="#engagement">Engagement</a><a href="#veille">La Veille</a>
+        <a href="#annexes">Annexes</a><a href="#contact">Contact</a>
+    </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="accueil">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+        <div class="hero-badge"><div class="hero-dot"></div>Disponible pour stage &amp; alternance</div>
+        <h1 class="hero-title">Oumoumen<br><span class="grad">Marouane</span></h1>
+        <p class="hero-sub">Étudiant BTS SIO option SISR — Administration systèmes, réseaux &amp; cybersécurité.</p>
+        <span class="typewriter" id="tw"><span class="tw-cur">|</span></span>
+        <div class="hero-btns">
+            <a href="#projets" class="btn btn-p">Voir mes projets →</a>
+            <a href="#contact" class="btn btn-s">Me contacter</a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat"><span class="stat-n" data-count="9">0</span><span class="stat-l">Projets</span></div>
+            <div class="stat"><span class="stat-n" data-count="2">0</span><span class="stat-l">Ans de formation</span></div>
+            <div class="stat"><span class="stat-n" data-count="2">0</span><span class="stat-l">Mois de stage</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ À PROPOS ═══ -->
+<section id="about">
+    <div class="about-grid">
+        <div class="about-img-w fi-anim">
+            <div class="about-img"><span style="z-index:1">👨‍💻</span></div>
+            <div class="about-badge"><span>BTS</span><small>SIO SISR</small></div>
+        </div>
+        <div class="fi-anim delay-1">
+            <div class="sec-head" style="text-align:left;margin-bottom:1.8rem;">
+                <div class="sec-tag">À Propos</div>
+                <h2 class="sec-title">Étudiant BTS SIO SISR</h2>
+            </div>
+            <p class="about-txt">Actuellement en 2ᵉ année de BTS SIO option SISR au lycée Jean Mermoz de Montpellier, je suis passionné par l'administration des systèmes et réseaux ainsi que la cybersécurité.</p>
+            <p class="about-txt">Mon objectif est de devenir administrateur systèmes &amp; réseaux avec une spécialisation en cybersécurité. Je m'investis dans des projets concrets pour développer mes compétences techniques et acquérir une expérience pratique solide.</p>
+            <div class="chips">
+                <span class="chip">🖥️ Sysadmin</span>
+                <span class="chip">🌐 Réseaux</span>
+                <span class="chip">🔒 Cybersécurité</span>
+                <span class="chip">☁️ Virtualisation</span>
+                <span class="chip">📊 Monitoring</span>
+                <span class="chip">🐧 Linux</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ FORMATION ═══ -->
+<section id="formation">
+    <div class="sec-head fi-anim">
+        <div class="sec-tag">Parcours</div>
+        <h2 class="sec-title">Formation</h2>
+        <p class="sec-sub">Mon parcours académique</p>
+    </div>
+    <div class="timeline">
+        <div class="tl-item fi-anim">
+            <div class="tl-card">
+                <span class="tl-yr">2023 – 2025</span>
+                <h3 class="tl-title">BTS Services Informatiques aux Organisations</h3>
+                <p class="tl-inst">Option SISR — Lycée Jean Mermoz, Montpellier</p>
+                <p class="tl-desc">Administration systèmes, réseaux, virtualisation, cybersécurité. Projets pratiques en entreprise et en laboratoire.</p>
+            </div>
+        </div>
+        <div class="tl-item fi-anim delay-1">
+            <div class="tl-card">
+                <span class="tl-yr">2020 – 2023</span>
+                <h3 class="tl-title">Baccalauréat Professionnel MTNE</h3>
+                <p class="tl-inst">Option RISC — Réseaux Informatiques et Systèmes Connectés</p>
+                <p class="tl-desc">Maintenance matérielle, bases des réseaux, systèmes connectés et câblage réseau.</p>
+            </div>
+        </div>
+        <div class="tl-item fi-anim delay-2">
+            <div class="tl-card">
+                <span class="tl-yr">2020</span>
+                <h3 class="tl-title">Diplôme National du Brevet</h3>
+                <p class="tl-inst">Collège — Obtenu avec mention</p>
+                <p class="tl-desc">Première étape avant l'orientation vers le domaine informatique.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ COMPÉTENCES ═══ -->
+<section id="competences">
+    <div class="sec-head fi-anim">
+        <div class="sec-tag">Savoir-faire</div>
+        <h2 class="sec-title">Compétences</h2>
+        <p class="sec-sub">Compétences développées à travers ma formation et mes projets BTS SIO SISR</p>
+    </div>
+    <div class="skills-grid">
+        <div class="skill-cat fi-anim">
+            <div class="skill-cat-hd"><div class="skill-ico">🖥️</div><h3 class="skill-ttl">Systèmes</h3></div>
+            <div class="skill-tags">
+                <span class="stag">Linux Ubuntu/Debian</span><span class="stag">Windows Server</span>
+                <span class="stag">Active Directory</span><span class="stag">GPO</span>
+                <span class="stag">Proxmox VE</span><span class="stag">Hyper-V</span><span class="stag">Virtualisation</span>
+            </div>
+        </div>
+        <div class="skill-cat fi-anim delay-1">
+            <div class="skill-cat-hd"><div class="skill-ico">🌐</div><h3 class="skill-ttl">Réseaux</h3></div>
+            <div class="skill-tags">
+                <span class="stag">TCP/IP</span><span class="stag">DHCP / DNS</span><span class="stag">VLAN</span>
+                <span class="stag">VRRP</span><span class="stag">LACP</span><span class="stag">Firewall</span>
+                <span class="stag">VPN</span><span class="stag">GNS3</span>
+            </div>
+        </div>
+        <div class="skill-cat fi-anim delay-2">
+            <div class="skill-cat-hd"><div class="skill-ico">🔒</div><h3 class="skill-ttl">Sécurité &amp; Monitoring</h3></div>
+            <div class="skill-tags">
+                <span class="stag">GLPI</span><span class="stag">Centreon</span><span class="stag">Zabbix</span>
+                <span class="stag">OpenVPN</span><span class="stag">Sauvegarde / PRA</span>
+                <span class="stag">Cybersécurité</span><span class="stag">Zyxel</span>
+            </div>
+        </div>
+        <div class="skill-cat fi-anim delay-3">
+            <div class="skill-cat-hd"><div class="skill-ico">💻</div><h3 class="skill-ttl">Développement &amp; Scripts</h3></div>
+            <div class="skill-tags">
+                <span class="stag">Bash</span><span class="stag">Python</span><span class="stag">PHP</span>
+                <span class="stag">HTML / CSS</span><span class="stag">MySQL</span><span class="stag">Apache</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ PROJETS ═══ -->
+<section id="projets">
+    <div class="sec-head fi-anim">
+        <div class="sec-tag">Réalisations</div>
+        <h2 class="sec-title">Mes Projets</h2>
+        <p class="sec-sub">Projets réalisés durant mes stages et ma formation BTS SIO SISR</p>
+    </div>
+    <div class="proj-filters fi-anim">
+        <button class="fb active" data-f="all">🗂 Tous</button>
+        <button class="fb" data-f="stage1">📘 Stage 1ère Année</button>
+        <button class="fb" data-f="stage2">📗 Stage 2ème Année</button>
+        <button class="fb" data-f="bts">🎓 Projets BTS</button>
+    </div>
+    <div class="projects-grid">
+        <div class="pc fi-anim" data-cat="stage2">
+            <div class="pc-head"><span class="pc-num">01</span><h3 class="pc-title">Infrastructure Réseau Entreprise</h3></div>
+            <div class="pc-body">
+                <p class="pc-desc">Migration et centralisation des machines virtuelles sur un serveur unique avec configuration réseau et vérification des services.</p>
+                <div class="pc-tech"><span class="ttag">Windows Server</span><span class="ttag">Hyper-V</span><span class="ttag">DHCP/DNS</span></div>
+                <div class="pdf-btns">
+                    <button class="btn-prev" onclick="openPdf('assets/documents/projet-1-infrastructure-reseau.pdf','Infrastructure Réseau Entreprise')">👁 Prévisualiser</button>
+                    <a href="assets/documents/projet-1-infrastructure-reseau.pdf" class="btn-dl" download>⬇ Télécharger PDF</a>
+                </div>
+            </div>
+        </div>
+        <div class="pc fi-anim" data-cat="stage1">
+            <div class="pc-head"><span class="pc-num">02</span><h3 class="pc-title">Serveur Linux Multi-Services</h3></div>
+            <div class="pc-body">
+                <p class="pc-desc">Installation et configuration d'un serveur Linux hébergeant Apache, SSH avec authentification par clé et gestion avancée des utilisateurs.</p>
+                <div class="pc-tech"><span class="ttag">Debian</span><span class="ttag">Apache</span><span class="ttag">SSH</span><span class="ttag">Bash</span></div>
+                <div class="pdf-btns">
+                    <button class="btn-prev" onclick="openPdf('assets/documents/projet-2-serveur-linux.pdf','Serveur Linux Multi-Services')">👁 Prévisualiser</button>
+                    <a href="assets/documents/projet-2-serveur-linux.pdf" class="btn-dl" download>⬇ Télécharger PDF</a>
+                </div>
+            </div>
+        </div>
+        <div class="pc fi-anim" data-cat="stage2">
+            <div class="pc-head"><span class="pc-num">03</span><h3 class="pc-title">Virtualisation</h3></div>
+            <div class="pc-body">
+                <p class="pc-desc">Création d'un environnement virtualisé complet avec Proxmox, configuration réseau virtuel et interconnexion des machines virtuelles.</p>
+                <div class="pc-tech"><span class="ttag">Proxmox</span><span class="ttag">Linux</span><span class="ttag">Hyper-V</span></div>
+                <div class="pdf-btns">
+                    <button class="btn-prev" onclick="openPdf('assets/documents/projet-3-virtualisation.pdf','Virtualisation')">👁 Prévisualiser</button>
+                    <a href="assets/documents/projet-3-virtualisation.pdf" class="btn-dl" download>⬇ Télécharger PDF</a>
+                </div>
+            </div>
+        </div>
+        <div class="pc fi-anim" data-cat="stage1">
+            <div class="pc-head"><span class="pc-num">04</span><h3 class="pc-title">Gestion de Parc — GLPI</h3></div>
+            <div class="pc-body">
+                <p class="pc-desc">Déploiement et configuration de GLPI pour la gestion complète du parc informatique, tickets incidents et demandes d'intervention.</p>
+                <div class="pc-tech"><span class="ttag">GLPI</span><span class="ttag">MySQL</span><span class="ttag">Apache</span></div>
+                <div class="pdf-btns">
+                    <button class="btn-prev" onclick="openPdf('assets/documents/projet-4-glpi.pdf','Gestion de Parc - GLPI')">👁 Prévisualiser</button>
+                    <a href="assets/documents/projet-4-glpi.pdf" class="btn-dl" download>⬇ Télécharger PDF</a>
+                </div>
+            </div>
+        </div>
+        <div class="pc fi-anim" data-cat="stage1">
+            <div class="pc-head"><span class="pc-num">05</span><h3 class="pc-title">Active Directory Windows Server</h3></div>
+            <div class="pc-body">
+                <p class="pc-desc">Domaine Active Directory complet avec utilisateurs, groupes, OU et stratégies GPO pour la sécurisation des postes.</p>
+                <div class="pc-tech"><span class="ttag">Windows Server 2019</span><span class="ttag">Active Directory</span><span class="ttag">GPO</span><span class="ttag">DNS</span></div>
+                <div class="pdf-btns">
+                    <button class="btn-prev" onclick="openPdf('assets/documents/projet-5-active-directory.pdf','Active Directory Windows Server')">👁 Prévisualiser</button>
+                    <a href="assets/documents/projet-5-active-directory.pdf" class="btn-dl" download>⬇ Télécharger PDF</a>
+                </div>
+            </div>
+        </div>
+        <div class="pc fi-anim" data-cat="stage2">
+            <div class="pc-head"><span class="pc-num">06</span><h3 class="pc-title">Sécurité &amp; Sauvegarde</h3></div>
+            <div class="pc-body">
+                <p class="pc-desc">Stratégie de sauvegarde incrémentale automatisée, pare-feu Zyxel avancé et déploiement VPN OpenVPN pour accès distant sécurisé.</p>
+                <div class="pc-tech"><span class="ttag">Zyxel</span><span class="ttag">OpenVPN</span><span class="ttag">Synology</span></div>
+                <div class="pdf-btns">
+                    <button class="btn-prev" onclick="openPdf('assets/documents/projet-6-securite-sauvegarde.pdf','Sécurité et Sauvegarde')">👁 Prévisualiser</button>
+                    <a href="assets/documents/projet-6-securite-sauvegarde.pdf" class="btn-dl" download>⬇ Télécharger PDF</a>
+                </div>
+            </div>
+        </div>
+        <!-- BTS vierges -->
+        <div class="pc blank fi-anim" data-cat="bts">
+            <div class="pc-head"><span class="pc-num">07</span><h3 class="pc-title">Projet BTS — À compléter</h3></div>
+            <div class="pc-body">
+                <div class="blank-ph"><span class="bi">📁</span><p>Projet BTS à renseigner</p><small>Remplace ce contenu par ton projet</small></div>
+                <div class="pc-tech"><span class="ttag">À définir</span></div>
+                <div class="pdf-btns">
+                    <button class="btn-prev" onclick="openPdf('assets/documents/projet-7.pdf','Projet BTS 07')">👁 Prévisualiser</button>
+                    <a href="assets/documents/projet-7.pdf" class="btn-dl" download>⬇ Télécharger PDF</a>
+                </div>
+            </div>
+        </div>
+        <div class="pc blank fi-anim" data-cat="bts">
+            <div class="pc-head"><span class="pc-num">08</span><h3 class="pc-title">Projet BTS — À compléter</h3></div>
+            <div class="pc-body">
+                <div class="blank-ph"><span class="bi">📁</span><p>Projet BTS à renseigner</p><small>Remplace ce contenu par ton projet</small></div>
+                <div class="pc-tech"><span class="ttag">À définir</span></div>
+                <div class="pdf-btns">
+                    <button class="btn-prev" onclick="openPdf('assets/documents/projet-8.pdf','Projet BTS 08')">👁 Prévisualiser</button>
+                    <a href="assets/documents/projet-8.pdf" class="btn-dl" download>⬇ Télécharger PDF</a>
+                </div>
+            </div>
+        </div>
+        <div class="pc blank fi-anim" data-cat="bts">
+            <div class="pc-head"><span class="pc-num">09</span><h3 class="pc-title">Projet BTS — À compléter</h3></div>
+            <div class="pc-body">
+                <div class="blank-ph"><span class="bi">📁</span><p>Projet BTS à renseigner</p><small>Remplace ce contenu par ton projet</small></div>
+                <div class="pc-tech"><span class="ttag">À définir</span></div>
+                <div class="pdf-btns">
+                    <button class="btn-prev" onclick="openPdf('assets/documents/projet-9.pdf','Projet BTS 09')">👁 Prévisualiser</button>
+                    <a href="assets/documents/projet-9.pdf" class="btn-dl" download>⬇ Télécharger PDF</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ OBJECTIFS ═══ -->
+<section id="objectifs">
+    <div class="sec-head fi-anim">
+        <div class="sec-tag">Ambitions</div>
+        <h2 class="sec-title">Objectifs</h2>
+        <p class="sec-sub">Ma feuille de route vers l'excellence en administration systèmes et cybersécurité</p>
+    </div>
+    <div class="obj-grid">
+        <div class="obj-card fi-anim"><span class="obj-num">01</span><h3 class="obj-title">Valider mon BTS SIO SISR</h3><p class="obj-txt">Réussir avec excellence mon BTS, développer des compétences solides en administration systèmes, réseaux et virtualisation, et acquérir une expérience pratique concrète.</p></div>
+        <div class="obj-card fi-anim delay-1"><span class="obj-num">02</span><h3 class="obj-title">Obtenir des Certifications</h3><p class="obj-txt">CCNA pour valider mes compétences réseaux, CompTIA Security+ pour la cybersécurité, et poursuivre en Licence Pro ou Master en alternance.</p></div>
+        <div class="obj-card fi-anim delay-2"><span class="obj-num">03</span><h3 class="obj-title">Expert Cybersécurité</h3><p class="obj-txt">Devenir administrateur systèmes confirmé avec expertise en sécurité. Évoluer vers un poste de RSSI, pentester ou analyste SOC.</p></div>
+    </div>
+</section>
+
+<!-- ═══ ENGAGEMENT EF4 ═══ -->
+<section id="engagement">
+    <div class="sec-head fi-anim">
+        <div class="sec-tag">EF4 — Épreuve Facultative</div>
+        <h2 class="sec-title">Engagement Étudiant</h2>
+        <p class="sec-sub">Activité professionnelle réalisée dans le cadre de l'épreuve facultative EF4 — BTS SIO Session 2025</p>
+    </div>
+    <div class="eng-wrap">
+        <div class="eng-left fi-anim">
+            <div class="eng-hero">
+                <span class="eng-emoji">🏢</span>
+                <div class="eng-co">Ordilan</div>
+                <div class="eng-loc">📍 203 rue de l'industrie, 34070 Montpellier</div>
+            </div>
+            <div class="eng-mc">
+                <div class="eng-mr"><div class="eng-mi">👤</div><div><div class="eng-ml">Rôle</div><div class="eng-mv">Technicien d'infogérance informatique</div></div></div>
+                <div class="eng-mr"><div class="eng-mi">📅</div><div><div class="eng-ml">Période</div><div class="eng-mv">21/07/2025 → 24/12/2025</div></div></div>
+                <div class="eng-mr"><div class="eng-mi">⏱️</div><div><div class="eng-ml">Durée</div><div class="eng-mv">2 mois</div></div></div>
+                <div class="eng-mr"><div class="eng-mi">📋</div><div><div class="eng-ml">Nature</div><div class="eng-mv">Activité professionnelle</div></div></div>
+                <div class="eng-mr"><div class="eng-mi">🎓</div><div><div class="eng-ml">Référent</div><div class="eng-mv">Said MOKHTAR — Gérant</div></div></div>
+                <div class="eng-mr"><div class="eng-mi">🪪</div><div><div class="eng-ml">N° candidat</div><div class="eng-mv">02249592348</div></div></div>
+            </div>
+            <div class="ef4-badge">🎓 Épreuve facultative EF4 — BTS SIO SISR 2025</div>
+        </div>
+        <div class="eng-right">
+            <div class="eng-card fi-anim">
+                <div class="eng-ch"><div class="eng-ci">📋</div><h3 class="eng-ct">Mission</h3></div>
+                <p class="eng-p">Maintenance et gestion du parc informatique / Support technique aux utilisateurs au sein de <strong>Ordilan</strong>, entreprise spécialisée dans l'infogérance à Montpellier. Mission réalisée dans le cadre de l'épreuve E5 — Support et mise à disposition de services informatiques.</p>
+            </div>
+            <div class="eng-card fi-anim delay-1">
+                <div class="eng-ch"><div class="eng-ci">🔧</div><h3 class="eng-ct">Activités réalisées</h3></div>
+                <ul class="eng-ul">
+                    <li>Installation, configuration et mise à jour des postes informatiques (ordinateurs, imprimantes, logiciels)</li>
+                    <li>Diagnostic et résolution des pannes matérielles et logicielles</li>
+                    <li>Assistance et support technique auprès des utilisateurs (sur site et à distance)</li>
+                    <li>Gestion et maintenance du réseau informatique (connexion, sécurité, accès)</li>
+                    <li>Sauvegarde des données et vérification de leur intégrité</li>
+                    <li>Participation à l'inventaire et au suivi du parc informatique</li>
+                    <li>Rédaction de comptes rendus d'intervention et documentation technique</li>
+                </ul>
+            </div>
+            <div class="eng-card fi-anim delay-2">
+                <div class="eng-ch"><div class="eng-ci">🚀</div><h3 class="eng-ct">Compétences développées</h3></div>
+                <ul class="eng-ul">
+                    <li>Maîtrise des outils et systèmes informatiques (installation, configuration, maintenance)</li>
+                    <li>Diagnostic et résolution de problèmes techniques matériels et logiciels</li>
+                    <li>Gestion d'un parc informatique et des réseaux</li>
+                    <li>Renforcement des connaissances en cybersécurité (protection des données, bonnes pratiques)</li>
+                    <li>Communication avec les utilisateurs (écoute, pédagogie, réactivité)</li>
+                    <li>Organisation du travail et gestion des priorités</li>
+                </ul>
+            </div>
+            <div class="eng-card fi-anim delay-3">
+                <div class="eng-ch"><div class="eng-ci">💡</div><h3 class="eng-ct">Bilan &amp; Lien avec la formation</h3></div>
+                <p class="eng-p">Cette expérience chez Ordilan m'a permis de mettre en pratique les connaissances acquises en BTS, notamment en maintenance informatique, réseaux et support aux utilisateurs. Elle m'a aidé à développer des compétences professionnelles comme l'autonomie, la rigueur et la communication, et complète efficacement ma formation.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ VEILLE TECHNOLOGIQUE — ANTS 2024 ═══ -->
+<section id="veille">
+    <div class="sec-head fi-anim">
+        <div class="sec-tag">Veille Technologique</div>
+        <h2 class="sec-title">La Veille Technologique</h2>
+        <p class="sec-sub">Sujet : <strong style="color:var(--accent-cyan)">Cyberattaque de l'ANTS (2024)</strong> — Analyse d'une violation de données touchant 17 millions de Français</p>
+    </div>
+
+    <!-- INTRO + FICHE -->
+    <div class="veille-intro">
+        <div class="veille-txt fi-anim">
+            <p>La <strong>veille technologique</strong> est une démarche essentielle pour tout professionnel de l'IT. Elle consiste à surveiller en continu les évolutions du secteur : nouvelles vulnérabilités, incidents de sécurité, mises à jour critiques et bonnes pratiques.</p>
+            <p>J'ai choisi d'analyser la <strong>cyberattaque contre l'ANTS</strong> (Agence Nationale des Titres Sécurisés), découverte en 2024, qui a conduit à l'exposition des données personnelles de plus de 17 millions de titulaires de permis de conduire français.</p>
+            <p>Cet incident illustre directement les enjeux de la <strong>sécurité des systèmes d'information publics</strong> et l'importance des compétences en administration systèmes développées dans ma formation SISR : gestion des accès, cloisonnement réseau, supervision et protection des données.</p>
+        </div>
+        <div class="veille-fiche fi-anim delay-1">
+            <div class="vf-head">
+                <span class="vf-icon">🔴</span>
+                <div>
+                    <h3 class="vf-title">Fiche Incident — ANTS 2024</h3>
+                    <span class="vf-badge">🚨 Violation de données confirmée</span>
+                </div>
+            </div>
+            <div class="vf-rows">
+                <div class="vf-row"><span class="vf-lbl">Cible</span><span class="vf-val">ANTS — Agence Nationale des Titres Sécurisés</span></div>
+                <div class="vf-row"><span class="vf-lbl">Année</span><span class="vf-val">2024</span></div>
+                <div class="vf-row"><span class="vf-lbl">Type d'attaque</span><span class="vf-val">Supply Chain / Accès non autorisé</span></div>
+                <div class="vf-row"><span class="vf-lbl">Personnes exposées</span><span class="vf-val">+17 millions</span></div>
+                <div class="vf-row"><span class="vf-lbl">Données concernées</span><span class="vf-val">Permis de conduire, plaques, identité</span></div>
+                <div class="vf-row"><span class="vf-lbl">Signalement</span><span class="vf-val">CNIL notifiée (RGPD art.33)</span></div>
+                <div class="vf-row"><span class="vf-lbl">Criticité</span><span class="vf-danger">⚠️ Critique — Données régaliennes</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="veille-block fi-anim">
+        <h3 class="veille-block-ttl">📅 Chronologie de l'incident</h3>
+        <div class="vtl">
+            <div class="vtl-item">
+                <div class="vtl-dot red"></div>
+                <div class="vtl-card">
+                    <span class="vtl-date">Début 2024</span>
+                    <h4>Intrusion initiale</h4>
+                    <p>Des acteurs malveillants compromettent un prestataire tiers de l'ANTS via une attaque de type <em>supply chain</em>. Des identifiants légitimes sont dérobés, permettant un accès furtif aux systèmes.</p>
+                </div>
+            </div>
+            <div class="vtl-item">
+                <div class="vtl-dot orange"></div>
+                <div class="vtl-card">
+                    <span class="vtl-date">Mars 2024</span>
+                    <h4>Exfiltration des données</h4>
+                    <p>Les données personnelles de plus de 17 millions de titulaires de permis de conduire sont exfiltrées : nom, prénom, date de naissance, adresse, numéro de permis et informations sur le véhicule.</p>
+                </div>
+            </div>
+            <div class="vtl-item">
+                <div class="vtl-dot yellow"></div>
+                <div class="vtl-card">
+                    <span class="vtl-date">Avril 2024</span>
+                    <h4>Détection &amp; notification CNIL</h4>
+                    <p>L'ANTS détecte la violation et notifie la CNIL conformément au RGPD (article 33). Le CERT-FR publie un bulletin d'alerte. Les victimes sont progressivement informées.</p>
+                </div>
+            </div>
+            <div class="vtl-item">
+                <div class="vtl-dot green"></div>
+                <div class="vtl-card">
+                    <span class="vtl-date">Mai 2024 et après</span>
+                    <h4>Mesures correctives</h4>
+                    <p>Révocation des accès compromis, audit de la chaîne de prestataires, renforcement de l'authentification multi-facteurs (MFA), segmentation réseau renforcée et audit de sécurité complet.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANALYSE TECHNIQUE -->
+    <div class="v-analysis fi-anim">
+        <div class="va-card va-r">
+            <span class="va-ico">⚔️</span>
+            <h4 class="va-ttl">Vecteur d'attaque</h4>
+            <p class="va-txt">Compromission d'un prestataire tiers (<em>supply chain attack</em>). Accès aux systèmes de l'ANTS via des identifiants légitimes dérobés. Absence de principe du moindre privilège sur les comptes prestataires.</p>
+        </div>
+        <div class="va-card va-o">
+            <span class="va-ico">🔓</span>
+            <h4 class="va-ttl">Failles exploitées</h4>
+            <p class="va-txt">Gestion insuffisante des accès tiers, absence de MFA sur comptes à privilèges, monitoring défaillant des connexions anormales, manque de segmentation réseau entre systèmes prestataires et internes.</p>
+        </div>
+        <div class="va-card va-b">
+            <span class="va-ico">📊</span>
+            <h4 class="va-ttl">Impact &amp; Conséquences</h4>
+            <p class="va-txt">17+ millions de citoyens exposés. Risque d'usurpation d'identité, phishing ciblé, fraude documentaire. Atteinte à la confiance envers les services publics numériques. Investigation CNIL ouverte.</p>
+        </div>
+        <div class="va-card va-g">
+            <span class="va-ico">🛡️</span>
+            <h4 class="va-ttl">Recommandations ANSSI</h4>
+            <p class="va-txt">MFA obligatoire sur tous les comptes à privilèges. Principe du moindre privilège. Audit régulier des prestataires. SIEM pour détecter les anomalies. VLAN et segmentation réseau stricte. Journalisation des accès.</p>
+        </div>
+    </div>
+
+    <!-- LIEN FORMATION -->
+    <div class="v-link-block fi-anim">
+        <div class="v-link-inner">
+            <div class="v-link-ico">🎓</div>
+            <div class="v-link-content">
+                <h3>Lien avec ma formation BTS SIO SISR</h3>
+                <p>Cet incident illustre directement les compétences développées dans ma formation : la <strong>gestion des accès et des identités</strong> via Active Directory et GPO, le <strong>cloisonnement réseau</strong> par VLAN et pare-feu, la <strong>supervision des systèmes</strong> avec Centreon et Zabbix, et l'importance des <strong>politiques de sauvegarde</strong>. Il démontre pourquoi un administrateur systèmes doit appliquer rigoureusement le principe du moindre privilège et surveiller en permanence les connexions.</p>
+                <div class="v-tags">
+                    <span>Active Directory</span><span>Gestion des accès</span><span>VLAN</span>
+                    <span>Monitoring / SIEM</span><span>MFA</span><span>RGPD</span>
+                    <span>ANSSI / CERT-FR</span><span>Supply Chain Security</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SOURCES -->
+    <div class="v-sources fi-anim">
+        <h3 class="v-src-ttl">📚 Sources &amp; Outils de veille</h3>
+        <div class="v-src-grid">
+            <a href="https://www.cert.ssi.gouv.fr" target="_blank" class="vsrc"><span class="vsrc-ico">🔗</span><div><strong>CERT-FR</strong><p>Bulletins d'alerte officiels</p></div></a>
+            <a href="https://www.ssi.gouv.fr" target="_blank" class="vsrc"><span class="vsrc-ico">🔗</span><div><strong>ANSSI</strong><p>Recommandations sécurité</p></div></a>
+            <a href="https://www.cnil.fr" target="_blank" class="vsrc"><span class="vsrc-ico">🔗</span><div><strong>CNIL</strong><p>Notifications de violations</p></div></a>
+            <a href="https://cve.mitre.org" target="_blank" class="vsrc"><span class="vsrc-ico">🔗</span><div><strong>CVE Mitre</strong><p>Base de vulnérabilités</p></div></a>
+            <a href="https://thehackernews.com" target="_blank" class="vsrc"><span class="vsrc-ico">🔗</span><div><strong>The Hacker News</strong><p>Actualités cybersécurité</p></div></a>
+            <a href="https://korben.info" target="_blank" class="vsrc"><span class="vsrc-ico">🔗</span><div><strong>Korben.info</strong><p>Veille tech francophone</p></div></a>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ ANNEXES ═══ -->
+<section id="annexes">
+    <div class="sec-head fi-anim">
+        <div class="sec-tag">Documents</div>
+        <h2 class="sec-title">Annexes</h2>
+        <p class="sec-sub">Documents complémentaires — prévisualisez directement ou téléchargez.</p>
+    </div>
+    <div class="annex-grid">
+        <div class="ann-card fi-anim">
+            <div class="ann-head"><span class="ann-icon">📄</span><h3 class="ann-ttl">CV Professionnel</h3></div>
+            <div class="ann-body"><p class="ann-desc">Curriculum Vitae à jour présentant mon parcours, mes compétences et mes expériences.</p>
+            <div class="pdf-btns"><button class="btn-prev" onclick="openPdf('assets/documents/cv.pdf','CV Professionnel')">👁 Prévisualiser</button><a href="assets/documents/cv.pdf" class="btn-dl" download>⬇ Télécharger</a></div></div>
+        </div>
+        <div class="ann-card fi-anim delay-1">
+            <div class="ann-head"><span class="ann-icon">🎓</span><h3 class="ann-ttl">Fiche EF4 — Engagement Étudiant</h3></div>
+            <div class="ann-body"><p class="ann-desc">Formulaire officiel de reconnaissance de l'engagement étudiant — Épreuve facultative EF4, BTS SIO 2025.</p>
+            <div class="pdf-btns"><button class="btn-prev" onclick="openPdf('assets/documents/engagement-etudiant.pdf','Fiche EF4')">👁 Prévisualiser</button><a href="assets/documents/engagement-etudiant.pdf" class="btn-dl" download>⬇ Télécharger</a></div></div>
+        </div>
+        <div class="ann-card fi-anim delay-2">
+            <div class="ann-head"><span class="ann-icon">🏅</span><h3 class="ann-ttl">Certifications</h3></div>
+            <div class="ann-body"><p class="ann-desc">Certifications obtenues au cours de ma formation et en autodidacte.</p>
+            <div class="pdf-btns"><button class="btn-prev" onclick="openPdf('assets/documents/certification.pdf','Certifications')">👁 Prévisualiser</button><a href="assets/documents/certification.pdf" class="btn-dl" download>⬇ Télécharger</a></div></div>
+        </div>
+        <div class="ann-card fi-anim delay-3">
+            <div class="ann-head"><span class="ann-icon">🛠️</span><h3 class="ann-ttl">Projet Technique</h3></div>
+            <div class="ann-body"><p class="ann-desc">Documentation technique détaillée de mes projets d'infrastructure BTS SIO SISR.</p>
+            <div class="pdf-btns"><button class="btn-prev" onclick="openPdf('assets/documents/projet.pdf','Projet Technique')">👁 Prévisualiser</button><a href="assets/documents/projet.pdf" class="btn-dl" download>⬇ Télécharger</a></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+    <div class="sec-head fi-anim">
+        <div class="sec-tag">Contact</div>
+        <h2 class="sec-title">Restons en Contact</h2>
+        <p class="sec-sub">Ouvert aux opportunités de stage, d'alternance et de collaboration sur des projets.</p>
+    </div>
+    <div class="ctn-grid">
+        <div class="ctn-left">
+            <div class="ctn-card fi-anim">
+                <h3 class="ctn-card-ttl">Coordonnées</h3>
+                <div class="ci-item"><div class="ci-ico">✉️</div><div><div class="ci-lbl">Email</div><div class="ci-val"><a href="mailto:marouanebamas@gmail.com">marouanebamas@gmail.com</a></div></div></div>
+                <div class="ci-item"><div class="ci-ico">📍</div><div><div class="ci-lbl">Localisation</div><div class="ci-val">Montpellier, France</div></div></div>
+                <div class="ci-item"><div class="ci-ico">💼</div><div><div class="ci-lbl">Disponibilité</div><div class="ci-val">Stage &amp; Alternance</div></div></div>
+            </div>
+            <div class="ctn-card fi-anim delay-1">
+                <h3 class="ctn-card-ttl">Réseaux Sociaux</h3>
+                <div class="soc-links">
+                    <a href="https://www.linkedin.com/in/marouane-oumoumen-729316399/" target="_blank" class="soc">💼 LinkedIn</a>
+                    <a href="https://github.com/oumoumen-marouane" target="_blank" class="soc">🐙 GitHub</a>
+                </div>
+            </div>
+        </div>
+        <div class="ctn-form fi-anim delay-1">
+            <h3 class="form-ttl">Envoyez-moi un message</h3>
+            <p class="form-sub">Je répondrai dans les plus brefs délais.</p>
+            <form id="cForm" onsubmit="sendForm(event)">
+                <div class="form-row">
+                    <div class="fg"><label>Prénom</label><input class="fi" type="text" placeholder="Votre prénom" required></div>
+                    <div class="fg"><label>Nom</label><input class="fi" type="text" placeholder="Votre nom" required></div>
+                </div>
+                <div class="fg"><label>Email</label><input class="fi" type="email" placeholder="votre@email.com" required></div>
+                <div class="fg"><label>Sujet</label><input class="fi" type="text" placeholder="Objet du message" required></div>
+                <div class="fg"><label>Message</label><textarea class="fta" placeholder="Votre message..." required></textarea></div>
+                <button type="submit" class="f-sub-btn" id="subBtn">Envoyer le message ✉️</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="ft-links">
+        <a href="#accueil">Accueil</a><a href="#projets">Projets</a>
+        <a href="#engagement">Engagement</a><a href="#veille">La Veille</a>
+        <a href="#annexes">Annexes</a><a href="#contact">Contact</a>
+    </div>
+    <p>© 2025 <span class="f-nm">Oumoumen Marouane</span> — BTS SIO SISR · Fait avec ❤️ à Montpellier</p>
+</footer>
+
+<button id="bTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+/* ── LOADER ── */
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('hidden'),800));
+
+/* ── PARTICLES ── */
+(function(){
+    const c=document.getElementById('particles-canvas');
+    if(!c)return;
+    const ctx=c.getContext('2d');
+    let W=c.width=window.innerWidth,H=c.height=window.innerHeight;
+    window.addEventListener('resize',()=>{W=c.width=window.innerWidth;H=c.height=window.innerHeight;});
+    const P=Array.from({length:70},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+.5,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4}));
+    function draw(){
+        ctx.clearRect(0,0,W,H);
+        const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+        P.forEach(p=>{
+            p.x+=p.vx;p.y+=p.vy;
+            if(p.x<0||p.x>W)p.vx*=-1;
+            if(p.y<0||p.y>H)p.vy*=-1;
+            ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+            ctx.fillStyle=isDark?'rgba(0,212,255,.6)':'rgba(0,150,200,.4)';ctx.fill();
+        });
+        P.forEach((a,i)=>P.slice(i+1).forEach(b=>{
+            const d=Math.hypot(a.x-b.x,a.y-b.y);
+            if(d<120){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+            ctx.strokeStyle=`rgba(0,212,255,${.15*(1-d/120)})`;ctx.lineWidth=.6;ctx.stroke();}
+        }));
+        requestAnimationFrame(draw);
+    }
+    draw();
+})();
+
+/* ── PROGRESS ── */
+window.addEventListener('scroll',()=>{
+    const t=document.documentElement.scrollHeight-window.innerHeight;
+    document.getElementById('prog').style.width=(window.scrollY/t*100)+'%';
+    document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
+    document.getElementById('bTop').classList.toggle('show',window.scrollY>400);
+});
+
+/* ── THEME ── */
+const tBtn=document.getElementById('themeBtn');
+const saved=localStorage.getItem('theme')||'dark';
+document.documentElement.setAttribute('data-theme',saved);
+tBtn.textContent=saved==='dark'?'☀️':'🌙';
+tBtn.addEventListener('click',()=>{
+    const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',n);
+    localStorage.setItem('theme',n);
+    tBtn.textContent=n==='dark'?'☀️':'🌙';
+    showToast(n==='dark'?'🌙 Mode sombre':'☀️ Mode clair');
+});
+
+/* ── TOAST ── */
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+
+/* ── HAMBURGER ── */
+document.getElementById('hburg').addEventListener('click',()=>document.getElementById('mobMenu').classList.toggle('open'));
+document.querySelectorAll('.mob-menu a').forEach(a=>a.addEventListener('click',()=>document.getElementById('mobMenu').classList.remove('open')));
+
+/* ── ACTIVE NAV ── */
+document.querySelectorAll('section[id]').forEach(s=>{
+    new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){
+        document.querySelectorAll('.nl').forEach(l=>l.classList.remove('active'));
+        const a=document.querySelector(`.nl[href="#${en.target.id}"]`);if(a)a.classList.add('active');
+    }});},{threshold:.3}).observe(s);
+});
+
+/* ── FADE ANIMATIONS ── */
+const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');obs.unobserve(en.target);}});},{threshold:.08});
+document.querySelectorAll('.fi-anim').forEach(el=>obs.observe(el));
+
+/* ── TYPEWRITER ── */
+const twEl=document.getElementById('tw');
+const phrases=['Administrateur Systèmes & Réseaux','Passionné de Cybersécurité','Étudiant BTS SIO SISR','Technicien d\'infogérance — Ordilan','Linux & Virtualisation Enthusiast'];
+let pi=0,ci=0,del=false;
+function type(){
+    const cur=phrases[pi];
+    twEl.innerHTML=(del?cur.substring(0,ci--):cur.substring(0,ci++))+'<span class="tw-cur">|</span>';
+    if(!del&&ci===cur.length+1){del=true;setTimeout(type,1600);return;}
+    if(del&&ci===0){del=false;pi=(pi+1)%phrases.length;}
+    setTimeout(type,del?42:78);
+}
+setTimeout(type,1200);
+
+/* ── COUNTERS ── */
+new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){
+    en.target.querySelectorAll('[data-count]').forEach(el=>{
+        const t=+el.dataset.count;let s=null;
+        (function step(ts){if(!s)s=ts;const p=Math.min((ts-s)/1200,1);el.textContent=Math.floor(p*t)+'+';if(p<1)requestAnimationFrame(step);else el.textContent=t+'+';})(performance.now());
+    });
+}});},{threshold:.5}).observe(document.getElementById('accueil'));
+
+/* ── CURSOR ── */
+const cur=document.getElementById('cursor'),curF=document.getElementById('curF');
+let mx=0,my=0,cx=0,cy=0,fx=0,fy=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function anim(){cx+=(mx-cx)*.28;cy+=(my-cy)*.28;fx+=(mx-fx)*.1;fy+=(my-fy)*.1;
+    if(cur){cur.style.left=cx+'px';cur.style.top=cy+'px';}
+    if(curF){curF.style.left=fx+'px';curF.style.top=fy+'px';}
+    requestAnimationFrame(anim);
+})();
+document.querySelectorAll('a,button,.pc,.va-card,.obj-card,.tl-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{if(cur)cur.style.cssText+=';background:var(--accent-purple);transform:translate(-50%,-50%) scale(1.6);';});
+    el.addEventListener('mouseleave',()=>{if(cur)cur.style.cssText+=';background:var(--accent-cyan);transform:translate(-50%,-50%) scale(1);';});
+});
+
+/* ── FILTERS ── */
+document.querySelectorAll('.fb').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const f=btn.dataset.f;
+        document.querySelectorAll('.pc').forEach(card=>{
+            card.classList.toggle('hidden',f!=='all'&&(card.dataset.cat||'')!==f);
+        });
+        showToast('Filtre : '+btn.textContent.trim());
+    });
+});
+
+/* ── PDF MODAL ── */
+function openPdf(path,title){
+    document.getElementById('pdfTtl').textContent=title;
+    document.getElementById('pdfDl').href=path;
+    document.getElementById('pdfDl').download=title+'.pdf';
+    document.getElementById('pdfFr').src=path;
+    document.getElementById('pdfOv').classList.add('on');
+    document.body.style.overflow='hidden';
+}
+function closePdf(){
+    document.getElementById('pdfOv').classList.remove('on');
+    setTimeout(()=>{document.getElementById('pdfFr').src='';document.body.style.overflow='';},300);
+}
+document.getElementById('pdfX').addEventListener('click',closePdf);
+document.getElementById('pdfOv').addEventListener('click',e=>{if(e.target===document.getElementById('pdfOv'))closePdf();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePdf();});
+
+/* ── CONTACT FORM ── */
+function sendForm(e){
+    e.preventDefault();
+    const btn=document.getElementById('subBtn');
+    btn.textContent='✅ Message envoyé !';btn.style.background='linear-gradient(135deg,#10b981,#059669)';btn.disabled=true;
+    showToast('✅ Message envoyé avec succès !');
+    setTimeout(()=>{btn.textContent='Envoyer le message ✉️';btn.style.background='';btn.disabled=false;e.target.reset();},3000);
+}
+</script>
+</body>
+</html>
